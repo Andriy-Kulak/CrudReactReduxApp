@@ -6,7 +6,7 @@ import { createStore, applyMiddleware } from 'redux';
 import routes from './routes';
 
 //router - decides what is rendered on page based on URL
-//browserHistory - how  to interpret change in URL
+//browserHistory - how  to interpret change in URL (uses all of the URL)
 //Other options are hashHistory - anything after a hash will be interpreted and tracked
 // 3rd Opt. memoryHistory
 import { Router, browserHistory} from 'react-router';
@@ -20,6 +20,7 @@ const createStoreWithMiddleware = applyMiddleware(
 	promise
 )(createStore);
 
+//figures out how we will be reading the url using our router. refer to above for more info
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
     <Router history={browserHistory} routes={routes} />

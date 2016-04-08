@@ -6,10 +6,23 @@ import { Link } from 'react-router';
 
 class PostsIndex extends Component {
 	//lifecycle method is ran only the first tme the component is rendered.
+	//this outamtically tries to render all the posts as soon as DOM is rendered
 	componentWillMount() {
 		this.props.fetchPosts(); //dispatch the action whenever PostsIndex is rendered to the DOM
 	}
 
+	renderPosts(){
+		return this.props.posts.map((post) => {
+			return(
+				<li className="list-group-item" key={post.id}>
+					<Link to={"posts/" + post.id}>
+					<span className="pull-xs-right">{post.categories}</span>
+					<strong>{post.title}</strong>
+					</Link>
+				</li>
+				);
+		});
+	}
 
 
 	render() {
@@ -20,11 +33,18 @@ class PostsIndex extends Component {
 						Add a Post
 					</Link>
 				</div>
-				List of Blogs
+				<h3>Posts</h3>
+				<ul className="list-group">
+					{this.renderPosts()}
+				</ul>
 			</div>
 		);
 	}
 }
 
+function mapStateToProps(state) {
+	return { posts: state.posts.all };
+}
+
 // {fetchPosts} is the same as {fetchPosts: fetchPosts}
-export default connect(null, {fetchPosts})(PostsIndex);
+export default connect(mapStateToProps, {fetchPosts})(PostsIndex);
